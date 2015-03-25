@@ -1,6 +1,13 @@
-# Ember-cli-rollbar
+# ember-cli-rollbar
 
-This README outlines the details of collaborating on this Ember addon.
+Drop-in Rollbar error reporting integration. Just add your Rollbar client-side access token to your `config/environment.js`:
+
+```js
+var ENV = {
+  //...
+  rollbarAccessToken: '<your token here>'
+};
+```
 
 ## Installation
 
