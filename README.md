@@ -5,8 +5,22 @@ Drop-in Rollbar error reporting integration. Just add your Rollbar client-side a
 ```js
 var ENV = {
   //...
-  rollbarAccessToken: '<your token here>'
+  rollbar: {
+    accessToken: '<your token here>'
+  }
 };
+```
+
+The `rollbar` config object is used to configure Rollbar, and defaults to the following options:
+
+```js
+{
+  enabled: environment !== 'development',
+  captureUncaught: true,
+  payload: {
+    environment: environment
+  }
+}
 ```
 
 ## Installation
