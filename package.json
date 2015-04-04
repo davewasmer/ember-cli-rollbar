@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-rollbar",
   "version": "0.0.2",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Drop in Rollbar reporting for Ember ClI.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "https://github.com/davewasmer/ember-cli-rollbar/",
   "engines": {
     "node": ">= 0.10.0"
   },
