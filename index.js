@@ -6,15 +6,17 @@ var merge = require('lodash-node/modern/object/merge');
 module.exports = {
   name: 'ember-cli-rollbar',
   contentFor: function(type, config) {
-    if (type === 'head') {
-      var environment = this.app.env;
+    var environment = this.app.env;
+    config = config.rollbar || {};
+    var includeScript = environment !== 'development' || config.enabled;
+    if (type === 'head' && includeScript) {
       var rollbarConfig = merge({
         enabled: environment !== 'development',
         captureUncaught: true,
         payload: {
           environment: environment
         }
-      }, config.rollbar);
+      }, config);
             return [
         '<script>',
         'var _rollbarConfig = ' + JSON.stringify(rollbarConfig),
