@@ -6,8 +6,11 @@ export default {
   initialize: function() {
     var errorLogger = Ember.Logger.error;
     Ember.Logger.error = function() {
+      var args = Array.prototype.slice.call(arguments),
+          err = isError(args[0]) ? args[0] : new Error(stringify(args));
+
       if (window.Rollbar) {
-        Rollbar.error.apply(Rollbar, arguments);
+        Rollbar.error.call(Rollbar, err);
       }
       errorLogger.apply(this, arguments);
     };
@@ -33,4 +36,12 @@ export default {
       debugLogger.apply(this, arguments);
     };
   }
+};
+
+var stringify = function(object){
+  return JSON ? JSON.stringify(object) : object.toString();
+};
+
+var isError = function(object){
+  return Ember.typeOf(object) === 'error';
 };
