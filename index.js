@@ -6,6 +6,12 @@ var path = require('path');
 var merge = require('lodash-node/modern/object/merge');
 var template = require('lodash-node/modern/string/template');
 
+var ROLLBAR_STUB = [
+  '<script>',
+  'var Rollbar = { configure: function() {}, info: function() {}, error: function() {} };',
+  '</script>'
+].join('\n');
+
 module.exports = {
   name: 'ember-cli-rollbar',
   contentFor: function(type, config) {
@@ -13,7 +19,11 @@ module.exports = {
     config = config.rollbar || {};
     var isProductionEnv = ['development', 'test'].indexOf(environment) === -1;
     var includeScript = isProductionEnv || config.enabled;
-    if (type === 'head' && includeScript) {
+
+    if (type !== 'head') { return; } // only adding scripts to <head>
+
+
+    if (includeScript) {
       var rollbarConfig = merge({
         enabled: isProductionEnv,
         captureUncaught: true,
@@ -24,6 +34,8 @@ module.exports = {
       var snippetPath = path.join(__dirname, 'addon', 'rollbar-snippet.html');
       var snippetContent = fs.readFileSync(snippetPath, 'utf-8');
       return template(snippetContent)({ rollbarConfig: JSON.stringify(rollbarConfig) });
+    } else {
+      return ROLLBAR_STUB;
     }
   }
 };
