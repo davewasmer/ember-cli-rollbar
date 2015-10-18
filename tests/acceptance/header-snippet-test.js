@@ -17,7 +17,6 @@ test('the header-snippet is present', function(assert) {
   visit('/');
   andThen(function() {
     let script = Ember.$('head script').html();
-    console.log(script);
     assert.ok(script.match(/_rollbarConfig = \{/));
     // Check that the snippet made it in - since the snippet changes frequently,
     // just check that the word function appears (since it's always going to at
