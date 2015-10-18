@@ -13,6 +13,7 @@ module.exports = {
     config = config.rollbar || {};
     var isProductionEnv = ['development', 'test'].indexOf(environment) === -1;
     var includeScript = isProductionEnv || config.enabled;
+    console.log(type, includeScript)
     if (type === 'head' && includeScript) {
       var rollbarConfig = merge({
         enabled: isProductionEnv,
@@ -21,9 +22,14 @@ module.exports = {
           environment: environment
         }
       }, config);
-      var snippetPath = path.join(__dirname, 'addon', 'rollbar-snippet.html');
+      var htmlPath = path.join(__dirname, 'addon', 'rollbar.html');
+      var htmlContent = fs.readFileSync(htmlPath, 'utf-8');
+      var snippetPath = path.join(__dirname, 'addon', 'snippet.js');
       var snippetContent = fs.readFileSync(snippetPath, 'utf-8');
-      return template(snippetContent)({ rollbarConfig: JSON.stringify(rollbarConfig) });
+      return template(htmlContent)({
+        rollbarConfig: JSON.stringify(rollbarConfig),
+        rollbarSnippet: snippetContent
+      });
     }
   }
 };
