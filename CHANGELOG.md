@@ -1,3 +1,14 @@
+# 0.2.4
+
+* Fix lodash dependency
+* Upgrade to Rollbar.js 1.7
+
+# 0.2.3
+
+* Upgrade to Ember CLI 1.13.8
+* Add a basic test
+* Add an update snippet task
+
 # 0.2.2
 
 * Disable reporting for test environment
