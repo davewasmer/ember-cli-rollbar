@@ -1,3 +1,8 @@
+# 0.2.5
+
+* Fix enabled flag regression ([#17](https://github.com/davewasmer/ember-cli-rollbar/issues/17))
+* Fix tests
+
 # 0.2.4
 
 * Fix lodash dependency
