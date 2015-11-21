@@ -1,9 +1,26 @@
 /* global Rollbar */
 import Ember from 'ember';
+import config from "../config/environment";
 
 export default {
   name: 'rollbar',
   initialize: function() {
+    this.configureLogging();
+    this.forwardLogging();
+  },
+  configureLogging: function() {
+    if (window.Rollbar) {
+      window.Rollbar.configure( Ember.merge({
+        enabled: true,
+        captureUncaught: true,
+        reportLevel: 'warning',
+        payload: {
+          environment: "development"
+        }
+      }, config.rollbar || {}));
+    }
+  },
+  forwardLogging: function() {
     var errorLogger = Ember.Logger.error;
     Ember.Logger.error = function() {
       var args = Array.prototype.slice.call(arguments),
