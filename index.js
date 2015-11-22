@@ -2,33 +2,30 @@
 'use strict';
 
 var fs = require('fs');
-var path = require('path');
-var merge = require('lodash/object/merge');
-var template = require('lodash/string/template');
+var _ = require('lodash');
 
 module.exports = {
   name: 'ember-cli-rollbar',
-  contentFor: function(type, config) {
-    var environment = this.app.env;
-    config = config.rollbar || {};
-    var isProductionEnv = ['development', 'test'].indexOf(environment) === -1;
-    var includeScript = isProductionEnv || config.enabled;
-    if (type === 'head' && includeScript) {
-      var rollbarConfig = merge({
-        enabled: isProductionEnv,
-        captureUncaught: true,
-        payload: {
-          environment: environment
-        }
-      }, config);
-      var htmlPath = path.join(__dirname, 'addon', 'rollbar.html');
-      var htmlContent = fs.readFileSync(htmlPath, 'utf-8');
-      var snippetPath = path.join(__dirname, 'addon', 'snippet.js');
-      var snippetContent = fs.readFileSync(snippetPath, 'utf-8');
-      return template(htmlContent)({
-        rollbarConfig: JSON.stringify(rollbarConfig),
-        rollbarSnippet: snippetContent
-      });
+  included: function(app, parentAddon) {
+    var target = (parentAddon || app);
+    var config = this.project.config(this.app.env);
+    if (config.rollbar) {
+      target.import("vendor/rollbar-snippet.js", {prepend: true});
+      target.import(this.configFilePath(config), {prepend: true});
     }
+  },
+  configFilePath: function(config){
+    var name = 'vendor/_rollbarConfig.js';
+    fs.writeFileSync(__dirname+"/"+name, this.rollbarConfig(config));
+    return name;
+  },
+  rollbarConfig: function(config) {
+    return "var _rollbarConfig = "+JSON.stringify(_.merge({
+      captureUncaught: true,
+      reportLevel: 'warning',
+      payload: {
+        environment: "development"
+      }
+    }, config.rollbar || {}));
   }
 };
