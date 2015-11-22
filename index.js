@@ -1,7 +1,8 @@
 /* jshint node: true */
 'use strict';
 
-var fs = require('fs')
+var fs = require('fs');
+var _ = require('lodash');
 
 module.exports = {
   name: 'ember-cli-rollbar',
@@ -19,7 +20,7 @@ module.exports = {
     return name;
   },
   rollbarConfig: function(config) {
-    return "var _rollbarConfig = "+JSON.stringify(Object.assign({
+    return "var _rollbarConfig = "+JSON.stringify(_.merge({
       captureUncaught: true,
       reportLevel: 'warning',
       payload: {
