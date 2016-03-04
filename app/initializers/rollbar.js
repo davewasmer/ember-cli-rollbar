@@ -3,34 +3,34 @@ import Ember from 'ember';
 
 export default {
   name: 'rollbar',
-  initialize: function() {
-    var errorLogger = Ember.Logger.error;
+  initialize() {
+    let errorLogger = Ember.Logger.error;
     Ember.Logger.error = function() {
       if (window.Rollbar) {
-        Rollbar.error.apply(Rollbar, arguments);
+        Rollbar.error(...arguments);
       }
-      errorLogger.apply(this, arguments);
+      errorLogger(...arguments);
     };
-    var warnLogger = Ember.Logger.warn;
+    let warnLogger = Ember.Logger.warn;
     Ember.Logger.warn = function() {
       if (window.Rollbar) {
-        Rollbar.warning.apply(Rollbar, arguments);
+        Rollbar.warning(...arguments);
       }
-      warnLogger.apply(this, arguments);
+      warnLogger(...arguments);
     };
-    var infoLogger = Ember.Logger.info;
+    let infoLogger = Ember.Logger.info;
     Ember.Logger.info = function() {
       if (window.Rollbar) {
-        Rollbar.info.apply(Rollbar, arguments);
+        Rollbar.info(...arguments);
       }
-      infoLogger.apply(this, arguments);
+      infoLogger(...arguments);
     };
-    var debugLogger = Ember.Logger.debug;
+    let debugLogger = Ember.Logger.debug;
     Ember.Logger.debug = function() {
       if (window.Rollbar) {
-        Rollbar.debug.apply(Rollbar, arguments);
+        Rollbar.debug(...arguments);
       }
-      debugLogger.apply(this, arguments);
+      debugLogger(...arguments);
     };
   }
 };

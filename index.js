@@ -1,30 +1,30 @@
 /* jshint node: true */
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var merge = require('lodash/object/merge');
-var template = require('lodash/string/template');
+let fs = require('fs');
+let path = require('path');
+let merge = require('lodash/object/merge');
+let template = require('lodash/string/template');
 
 module.exports = {
   name: 'ember-cli-rollbar',
   contentFor: function(type, config) {
-    var environment = this.app.env;
+    let environment = this.app.env;
     config = config.rollbar || {};
-    var isProductionEnv = ['development', 'test'].indexOf(environment) === -1;
-    var includeScript = isProductionEnv || config.enabled;
+    let isProductionEnv = ['development', 'test'].indexOf(environment) === -1;
+    let includeScript = isProductionEnv || config.enabled;
     if (type === 'head' && includeScript) {
-      var rollbarConfig = merge({
+      let rollbarConfig = merge({
         enabled: isProductionEnv,
         captureUncaught: true,
         payload: {
           environment: environment
         }
       }, config);
-      var htmlPath = path.join(__dirname, 'addon', 'rollbar.html');
-      var htmlContent = fs.readFileSync(htmlPath, 'utf-8');
-      var snippetPath = path.join(__dirname, 'addon', 'snippet.js');
-      var snippetContent = fs.readFileSync(snippetPath, 'utf-8');
+      let htmlPath = path.join(__dirname, 'addon', 'rollbar.html');
+      let htmlContent = fs.readFileSync(htmlPath, 'utf-8');
+      let snippetPath = path.join(__dirname, 'addon', 'snippet.js');
+      let snippetContent = fs.readFileSync(snippetPath, 'utf-8');
       return template(htmlContent)({
         rollbarConfig: JSON.stringify(rollbarConfig),
         rollbarSnippet: snippetContent
