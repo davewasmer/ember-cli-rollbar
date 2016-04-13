@@ -4,6 +4,14 @@ import Ember from 'ember';
 export default {
   name: 'rollbar',
   initialize: function() {
+    var config = getConfigEnvrionment();
+    var rollbarEnabled = false;
+    try {
+      rollbarEnabled = config.rollbar.enabled;
+    } catch (e) {}
+
+    if (typeof Rollbar === 'undefined' && !rollbarEnabled) { return; }
+
     var errorLogger = Ember.Logger.error;
     Ember.Logger.error = function() {
       var args = Array.prototype.slice.call(arguments),
@@ -44,4 +52,14 @@ var stringify = function(object){
 
 var isError = function(object){
   return Ember.typeOf(object) === 'error';
+};
+
+var getConfigEnvrionment = function() {
+  if (document && window) {
+    var meta = document.querySelector('meta[name$="config/environment"');
+    if (meta && meta.content) {
+      return JSON.parse(decodeURIComponent(meta.content));
+    }
+  }
+  return null;
 };
