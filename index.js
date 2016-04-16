@@ -3,7 +3,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var merge = require('lodash/object/merge');
+var merge = require('lodash/merge');
 var template = require('lodash/string/template');
 
 module.exports = {
