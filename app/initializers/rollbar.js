@@ -3,45 +3,34 @@ import Ember from 'ember';
 
 export default {
   name: 'rollbar',
-  initialize: function() {
-    var errorLogger = Ember.Logger.error;
+  initialize() {
+    let errorLogger = Ember.Logger.error;
     Ember.Logger.error = function() {
-      var args = Array.prototype.slice.call(arguments),
-          err = isError(args[0]) ? args[0] : new Error(stringify(args));
-
       if (window.Rollbar) {
-        Rollbar.error.call(Rollbar, err);
+        Rollbar.error(...arguments);
       }
-      errorLogger.apply(this, arguments);
+      errorLogger(...arguments);
     };
-    var warnLogger = Ember.Logger.warn;
+    let warnLogger = Ember.Logger.warn;
     Ember.Logger.warn = function() {
       if (window.Rollbar) {
-        Rollbar.warning.apply(Rollbar, arguments);
+        Rollbar.warning(...arguments);
       }
-      warnLogger.apply(this, arguments);
+      warnLogger(...arguments);
     };
-    var infoLogger = Ember.Logger.info;
+    let infoLogger = Ember.Logger.info;
     Ember.Logger.info = function() {
       if (window.Rollbar) {
-        Rollbar.info.apply(Rollbar, arguments);
+        Rollbar.info(...arguments);
       }
-      infoLogger.apply(this, arguments);
+      infoLogger(...arguments);
     };
-    var debugLogger = Ember.Logger.debug;
+    let debugLogger = Ember.Logger.debug;
     Ember.Logger.debug = function() {
       if (window.Rollbar) {
-        Rollbar.debug.apply(Rollbar, arguments);
+        Rollbar.debug(...arguments);
       }
-      debugLogger.apply(this, arguments);
+      debugLogger(...arguments);
     };
   }
-};
-
-var stringify = function(object){
-  return JSON ? JSON.stringify(object) : object.toString();
-};
-
-var isError = function(object){
-  return Ember.typeOf(object) === 'error';
 };
