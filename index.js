@@ -1,34 +1,40 @@
 /* jshint node: true */
+/* eslint no-var: "off", object-shorthand: "off" */
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
 var merge = require('lodash/merge');
-var template = require('lodash/string/template');
+var replace = require('broccoli-string-replace');
 
 module.exports = {
   name: 'ember-cli-rollbar',
-  contentFor: function(type, config) {
-    var environment = this.app.env;
-    config = config.rollbar || {};
-    var isProductionEnv = ['development', 'test'].indexOf(environment) === -1;
-    var includeScript = isProductionEnv || config.enabled;
-    if (type === 'head' && includeScript) {
-      var rollbarConfig = merge({
-        enabled: isProductionEnv,
-        captureUncaught: true,
-        payload: {
-          environment: environment
-        }
-      }, config);
-      var htmlPath = path.join(__dirname, 'addon', 'rollbar.html');
-      var htmlContent = fs.readFileSync(htmlPath, 'utf-8');
-      var snippetPath = path.join(__dirname, 'addon', 'snippet.js');
-      var snippetContent = fs.readFileSync(snippetPath, 'utf-8');
-      return template(htmlContent)({
-        rollbarConfig: JSON.stringify(rollbarConfig),
-        rollbarSnippet: snippetContent
-      });
+  included: function(app) {
+    var config = this.project.config(this.app.env).rollbar || {};
+    var defaultEnabled = this.app.env !== 'development' && this.app.env !== 'test';
+    var enabled = config.enabled == null ? defaultEnabled : config.enabled;
+    if (enabled) {
+      app.import('vendor/rollbar.js', { prepend: true });
     }
+  },
+  treeForVendor: function (vendorTree) {
+    vendorTree = this._super.treeForVendor(vendorTree);
+
+    var config = this.project.config(this.app.env).rollbar || {};
+    config = merge({
+      enabled: this.app.env !== 'development' && this.app.env !== 'test',
+      captureUncaught: true,
+      payload: {
+        environment: this.app.env
+      }
+    }, config);
+
+    vendorTree = replace(vendorTree, {
+      files: [ 'rollbar.js' ],
+      pattern: {
+        match: /ROLLBAR_CONFIG/g,
+        replacement: JSON.stringify(config)
+      }
+    });
+
+    return vendorTree;
   }
 };
