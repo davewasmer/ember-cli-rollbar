@@ -1,7 +1,9 @@
 snippeturl="https://raw.githubusercontent.com/rollbar/rollbar.js/master/dist/rollbar.snippet.js"
 packageurl="https://raw.githubusercontent.com/rollbar/rollbar.js/master/package.json"
 
-curl --silent $snippeturl > addon/snippet.js
+echo "/*jshint ignore:start*/" > addon/snippet.js
+curl --silent $snippeturl >> addon/snippet.js
+echo "/*jshint ignore:end*/" >> addon/snippet.js
 if $(git diff-index --quiet --cached HEAD); then
   echo "Committing changes ..."
   version=$(curl --silent $packageurl | grep 'version": "' | head -n 1 | cut -d '"' -f 4)
