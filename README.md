@@ -1,6 +1,9 @@
 # ember-cli-rollbar
 
-Drop-in Rollbar error reporting integration. 
+[![Dependency Status](https://david-dm.org/davewasmer/ember-cli-rollbar.svg)](https://david-dm.org/davewasmer/ember-cli-rollbar)
+[![Build Status](https://travis-ci.org/davewasmer/ember-cli-rollbar.svg?branch=master)](https://travis-ci.org/davewasmer/ember-cli-rollbar)
+
+Drop-in Rollbar error reporting integration.
 
 ## Installation
 
