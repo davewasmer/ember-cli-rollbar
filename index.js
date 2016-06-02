@@ -17,6 +17,7 @@ module.exports = {
       app.import('vendor/rollbar.js', {
         prepend: true
       });
+      app.import('vendor/rollbar-module.js');
     }
   },
   treeForVendor: function(vt) {
