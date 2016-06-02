@@ -13,7 +13,7 @@ module.exports = {
     var config = this.project.config(this.app.env).rollbar || {};
     var defaultEnabled = this.app.env !== 'development' && this.app.env !== 'test';
     var enabled = config.enabled == null ? defaultEnabled : config.enabled;
-    if (enabled) {
+    if (process.env.EMBER_CLI_FASTBOOT !== 'true' && enabled) {
       app.import('vendor/rollbar.js', {
         prepend: true
       });
@@ -22,25 +22,28 @@ module.exports = {
   treeForVendor: function(vt) {
     var vendorTree = this._super.treeForVendor(vt);
 
-    var config = this.project.config(this.app.env).rollbar || {};
-    config = merge({
-      enabled: this.app.env !== 'development' && this.app.env !== 'test',
-      captureUncaught: true,
-      payload: {
-        environment: this.app.env
-      }
-    }, config);
+    if (process.env.EMBER_CLI_FASTBOOT !== 'true') {
+      var config = this.project.config(this.app.env).rollbar || {};
+      config = merge({
+        enabled: this.app.env !== 'development' && this.app.env !== 'test',
+        captureUncaught: true,
+        payload: {
+          environment: this.app.env
+        }
+      }, config);
+      var clientTree = replace(path.join(__dirname, 'client'), {
+        files: ['rollbar.js'],
+        pattern: {
+          match: /ROLLBAR_CONFIG/g,
+          replacement: JSON.stringify(config)
+        }
+      });
 
-    var clientTree = replace(path.join(__dirname, 'client'), {
-      files: ['rollbar.js'],
-      pattern: {
-        match: /ROLLBAR_CONFIG/g,
-        replacement: JSON.stringify(config)
-      }
-    });
-
-    return mergeTrees([vendorTree, clientTree], {
-      overwrite: true
-    });
+      return mergeTrees([vendorTree, clientTree], {
+        overwrite: true
+      });
+    } else {
+      return vendorTree;
+    }
   }
 };
