@@ -13,7 +13,7 @@ module('Acceptance | header snippet', {
 });
 
 test('Rollbar is present', function(assert) {
-  assert.expect(2);
+  assert.expect(1);
   visit('/');
   andThen(function() {
     assert.ok(window.Rollbar);
@@ -21,7 +21,7 @@ test('Rollbar is present', function(assert) {
 });
 
 test('Ember.Logger methods are patched', function(assert) {
-  assert.expect(2);
+  assert.expect(1);
   visit('/');
   andThen(function() {
     assert.ok(Ember.Logger.info.toString().indexOf('Rollbar') > -1);
