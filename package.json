@@ -46,7 +46,7 @@
     "broccoli-string-replace": "^0.1.1",
     "broccoli-merge-trees": "^1.1.1",
     "ember-cli-babel": "^5.1.6",
-    "lodash": "^4.11.1"
+    "lodash": "^4.11.2"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
