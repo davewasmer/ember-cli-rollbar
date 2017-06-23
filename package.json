@@ -15,14 +15,13 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each",
-    "update-snippet": "tasks/update-snippet.sh"
+    "test": "ember try:each"
   },
   "dependencies": {
-    "broccoli-merge-trees": "^1.1.1",
-    "broccoli-string-replace": "^0.1.1",
+    "broccoli-file-creator": "^1.1.1",
+    "broccoli-merge-trees": "^2.0.0",
     "ember-cli-babel": "^6.3.0",
-    "lodash": "^4.11.1"
+    "ember-cli-node-assets": "^0.2.2"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -41,10 +40,10 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
-    "ember-try": "^0.2.17",
     "ember-source": "~2.15.0",
     "ember-welcome-page": "^3.0.0",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "rollbar": "^2.0.4"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
