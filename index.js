@@ -2,6 +2,7 @@
 /* eslint-disable object-shorthand */
 'use strict';
 
+const fastbootTransform = require('fastboot-transform');
 const mergeTrees = require('broccoli-merge-trees');
 const writeFile = require('broccoli-file-creator');
 
@@ -13,9 +14,10 @@ module.exports = {
         return {
           vendor: {
             srcDir: 'dist',
-            include: [
-              '*.js'
-            ]
+            include: ['*.js'],
+            processTree(input) {
+              return fastbootTransform(input);
+            }
           }
         };
       }
