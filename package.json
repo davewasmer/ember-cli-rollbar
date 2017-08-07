@@ -43,9 +43,10 @@
     "ember-addon"
   ],
   "dependencies": {
-    "broccoli-string-replace": "^0.1.1",
     "broccoli-merge-trees": "^1.1.1",
+    "broccoli-string-replace": "^0.1.1",
     "ember-cli-babel": "^5.1.6",
+    "fastboot-transform": "^0.1.2",
     "lodash": "^4.11.1"
   },
   "ember-addon": {
