@@ -10,6 +10,9 @@ var path = require('path');
 module.exports = {
   name: 'ember-cli-rollbar',
   included: function(app) {
+    if (typeof app.import !== 'function' && app.app) {
+      app = app.app;
+    }
     var config = this.project.config(app.env).rollbar || {};
     var defaultEnabled = app.env !== 'development' && app.env !== 'test';
     var enabled = config.enabled == null ? defaultEnabled : config.enabled;
