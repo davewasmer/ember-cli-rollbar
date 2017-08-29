@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 /* eslint no-var: "off", object-shorthand: "off" */
 'use strict';
 
