@@ -14,5 +14,4 @@ test('it looks like the Rollbar.js API', function(assert) {
   assert.ok(rollbar.info, 'info exists');
   assert.ok(rollbar.error, 'error exists');
   assert.ok(rollbar.configure, 'configure exists');
-  assert.ok(rollbar.scope, 'scope exists');
 });
