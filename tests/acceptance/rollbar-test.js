@@ -2,13 +2,15 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
+const { run, Logger } = Ember;
+
 module('Acceptance | header snippet', {
   beforeEach() {
     this.application = startApp();
   },
 
   afterEach() {
-    Ember.run(this.application, 'destroy');
+    run(this.application, 'destroy');
   }
 });
 
@@ -24,7 +26,6 @@ test('Ember.Logger methods are patched', function(assert) {
   assert.expect(1);
   visit('/');
   andThen(function() {
-    assert.ok(Ember.Logger.info.toString().indexOf('Rollbar') > -1);
+    assert.ok(Logger.info.toString().indexOf('Rollbar') > -1);
   });
 });
-
