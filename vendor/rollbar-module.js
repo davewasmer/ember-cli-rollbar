@@ -1,5 +1,5 @@
 (function() {
-  /* globals define, Rollbar */
+  /* globals define */
 
   function generateModule(name, values) {
     define(name, [], function() {
@@ -9,5 +9,5 @@
     });
   }
 
-  generateModule('rollbar', { 'default': Rollbar });
+  generateModule('rollbar', { 'default': window.Rollbar });
 })();

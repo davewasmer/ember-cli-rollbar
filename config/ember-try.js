@@ -79,5 +79,13 @@ module.exports = {
         devDependencies: {}
       }
     }
+    /*,
+    {
+      name: 'fastboot-addon-tests',
+      command: 'ember fastboot:test',
+      bower: {
+        dependencies: {}
+      }
+    }*/
   ]
 };
