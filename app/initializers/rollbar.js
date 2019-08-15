@@ -1,9 +1,12 @@
 /* global Rollbar */
 import Ember from 'ember';
+import { deprecate } from '@ember/application/deprecations';
+
 
 export default {
   name: 'rollbar',
   initialize: function() {
+    deprecate('This addon has been deprecated. Please use https://github.com/Exelord/ember-rollbar-client')
     var errorLogger = Ember.Logger.error;
     Ember.Logger.error = function() {
       var args = Array.prototype.slice.call(arguments),
